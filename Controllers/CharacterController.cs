@@ -32,7 +32,7 @@ namespace dotnet_rpg.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> AddCharacter(AddCharacterDto newCharacter)
+        public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
         {
             return Ok(await _characterService.AddCharacter(newCharacter));
         }
@@ -50,7 +50,7 @@ namespace dotnet_rpg.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> RemoveCharacter(int id)
+        public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> RemoveCharacter(int id)
         {
             var response = await _characterService.RemoveCharacter(id);
 
