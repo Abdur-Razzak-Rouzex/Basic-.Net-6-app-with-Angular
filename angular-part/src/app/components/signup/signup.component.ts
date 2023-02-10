@@ -1,3 +1,4 @@
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,9 +11,18 @@ export class SignupComponent implements OnInit {
   isText: boolean = false;
   eyeIcon: string = "fa-eye-slash";
 
-  constructor() { }
+  signUpForm!: FormGroup;
+
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.signUpForm = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      username: ['', Validators.required],
+      email: ['', Validators.required],
+      password: ['', Validators.required]
+    })
   }
 
   hideShowPass() {
@@ -25,6 +35,14 @@ export class SignupComponent implements OnInit {
       this.eyeIcon = "fa-eye-slash";
       this.type = "password"
     }
+  }
+
+  onSignUp() {
+    if (!this.signUpForm.valid) {
+      return;
+    }
+
+    console.log(this.signUpForm.value);
   }
 
 }

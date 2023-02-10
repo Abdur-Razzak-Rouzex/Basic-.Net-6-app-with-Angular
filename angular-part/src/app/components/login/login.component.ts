@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -10,9 +11,15 @@ export class LoginComponent implements OnInit {
   isText: boolean = false;
   eyeIcon: string = "fa-eye-slash";
 
-  constructor() { }
+  loginForm!: FormGroup;
+
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    })
   }
 
   hideShowPass() {
@@ -25,6 +32,11 @@ export class LoginComponent implements OnInit {
       this.eyeIcon = "fa-eye-slash";
       this.type = "password"
     }
+  }
+
+  onSubmit() {
+    console.log('test');
+
   }
 
 }
