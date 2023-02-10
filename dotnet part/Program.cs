@@ -22,6 +22,16 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<ICharacterService, CharacterService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+builder.Services.AddCors(option =>
+{
+    option.AddPolicy("MyPolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -33,6 +43,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("MyPolicy");
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

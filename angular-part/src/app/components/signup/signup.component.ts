@@ -1,5 +1,7 @@
+import { AuthService } from './../../services/auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -13,7 +15,11 @@ export class SignupComponent implements OnInit {
 
   signUpForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.signUpForm = this.fb.group({
@@ -42,7 +48,13 @@ export class SignupComponent implements OnInit {
       return;
     }
 
-    console.log(this.signUpForm.value);
+    this.authService.signUp(this.signUpForm.value).subscribe((res => {
+      if (res.success) {
+        alert(res.message);
+        this.signUpForm.reset();
+        this.router.navigate(['login'])
+      }
+    }))
   }
 
 }
