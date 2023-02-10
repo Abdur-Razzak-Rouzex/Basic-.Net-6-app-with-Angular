@@ -16,9 +16,9 @@ namespace dotnet_rpg.Services.UserService
 
         }
 
-        public async Task<ServiceResponse<UserLoginDto>> Authenticate(UserLoginDto loginInfo)
+        public async Task<ServiceResponse<String>> AuthenticateUser(UserLoginDto loginInfo)
         {
-            var serviceResponse = new ServiceResponse<UserLoginDto>();
+            var serviceResponse = new ServiceResponse<String>();
 
             try
             {
@@ -36,6 +36,21 @@ namespace dotnet_rpg.Services.UserService
                 serviceResponse.Success = false;
                 serviceResponse.Message = e.Message;
             }
+
+            return serviceResponse;
+        }
+
+
+        public async Task<ServiceResponse<GetUserDto>> SignupUser(UserSignupDto signupInfo)
+        {
+            var serviceResponse = new ServiceResponse<GetUserDto>();
+
+            var newUser = _mapper.Map<User>(signupInfo);
+            await _context.Users.AddAsync(newUser);
+            await _context.SaveChangesAsync();
+
+            serviceResponse.Data = _mapper.Map<GetUserDto>(newUser);
+            serviceResponse.Message = "User created successfully";
 
             return serviceResponse;
         }

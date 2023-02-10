@@ -20,20 +20,33 @@ namespace dotnet_rpg.Controllers
         }
 
         [HttpPost("authenticate")]
-        public async Task<ActionResult<ServiceResponse<String>>> Authenticate(UserLoginDto loginInfo)
+        public async Task<ActionResult<ServiceResponse<String>>> AuthenticateUser(UserLoginDto loginInfo)
         {
             if (loginInfo is null)
             {
                 return BadRequest();
             }
 
-            var response = await _userService.Authenticate(loginInfo);
+            var response = await _userService.AuthenticateUser(loginInfo);
 
             if (!response.Success)
             {
                 return NotFound(response);
             }
 
+            return Ok(response);
+        }
+
+
+        [HttpPost("register")]
+        public async Task<ActionResult<ServiceResponse<GetUserDto>>> SignupUser(UserSignupDto signupInfo)
+        {
+            if (signupInfo.Username is null && signupInfo.Password is null)
+            {
+                return BadRequest();
+            }
+
+            var response = await _userService.SignupUser(signupInfo);
             return Ok(response);
         }
     }

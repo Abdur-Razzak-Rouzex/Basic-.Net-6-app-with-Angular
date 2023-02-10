@@ -6,6 +6,7 @@ global using Microsoft.EntityFrameworkCore;
 global using dotnet_rpg.Data;
 global using dotnet_rpg.DTOs;
 global using dotnet_rpg.Services.UserService;
+global using dotnet_rpg.DTOs.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
